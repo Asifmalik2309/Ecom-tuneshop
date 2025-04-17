@@ -2,20 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Search, ShoppingCart, User } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, ShoppingCart, User, Menu, X } from 'lucide-react';
 
-// Define the CartItem type
 type CartItem = {
   id: number;
   quantity: number;
-  // Add other properties as needed, like price, title, etc.
 };
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const updateCartCount = () => {
@@ -25,7 +24,6 @@ export default function Navbar() {
     };
 
     updateCartCount();
-
     window.addEventListener('storage', updateCartCount);
     window.addEventListener('cartUpdated', updateCartCount);
 
@@ -45,28 +43,32 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isSticky ? 'bg-opacity-80 bg-gray-900 text-white shadow-md p-3 rounded-2xl mx-auto w-3/4 mt-2' : 'text-white p-3'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isSticky ? 'bg-opacity-80 bg-gray-900 text-white shadow-md p-3 rounded-2xl mx-auto md:w-3/4 mt-2' : 'text-white p-3'}`}>
       <div className="container mx-auto flex justify-between items-center">
-        <div className="flex gap-4">
-          <Link href="/" className="text-xs font-bold">Home</Link>
-          <Link href="/biography" className="hover:text-gray-300 text-xs">Biography</Link>
-          <Link href="/gallery" className="hover:text-gray-300 text-xs">Gallery</Link>
-          <Link href="/contact" className="hover:text-gray-300 text-xs">Contact</Link>
-          <Link href="/musicvideos" className="hover:text-gray-300 text-xs">Music</Link>
-          <Link href="/shop" className="hover:text-gray-300 text-xs">ShopNow</Link>
+        {/* Navigation Links */}
+        <div className="hidden md:flex gap-4 text-xs items-center">
+          <Link href="/" className="font-bold hover:text-gray-300">Home</Link>
+          <Link href="/biography" className="hover:text-gray-300">Biography</Link>
+          <Link href="/gallery" className="hover:text-gray-300">Gallery</Link>
+          <Link href="/contact" className="hover:text-gray-300">Contact</Link>
+          <Link href="/musicvideos" className="hover:text-gray-300">Music</Link>
+          <Link href="/shop" className="hover:text-gray-300">ShopNow</Link>
         </div>
 
+        {/* Icons */}
         <div className="flex items-center gap-4">
-          {searchOpen && (
-            <motion.input
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: '150px' }}
-              exit={{ opacity: 0, width: 0 }}
-              type="text"
-              placeholder="Search..."
-              className="px-2 py-1 rounded-md text-black border border-gray-300"
-            />
-          )}
+          <AnimatePresence>
+            {searchOpen && (
+              <motion.input
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: '150px' }}
+                exit={{ opacity: 0, width: 0 }}
+                type="text"
+                placeholder="Search..."
+                className="px-2 py-1 rounded-md text-black border border-gray-300"
+              />
+            )}
+          </AnimatePresence>
           <Search className="cursor-pointer" onClick={() => setSearchOpen(!searchOpen)} />
           <Link href="/login"><User className="cursor-pointer" /></Link>
           <Link href="/Cart" className="relative">
@@ -77,8 +79,36 @@ export default function Navbar() {
               </span>
             )}
           </Link>
+
+          {/* Hamburger menu for mobile */}
+          <div className="md:hidden">
+            {mobileMenuOpen ? (
+              <X className="cursor-pointer" onClick={() => setMobileMenuOpen(false)} />
+            ) : (
+              <Menu className="cursor-pointer" onClick={() => setMobileMenuOpen(true)} />
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="md:hidden bg-gray-900 text-white px-6 py-4 space-y-4 text-sm"
+          >
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="block py-2 border-b border-gray-700 font-semibold">Home</Link>
+            <Link href="/biography" onClick={() => setMobileMenuOpen(false)} className="block py-2 border-b border-gray-700">Biography</Link>
+            <Link href="/gallery" onClick={() => setMobileMenuOpen(false)} className="block py-2 border-b border-gray-700">Gallery</Link>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block py-2 border-b border-gray-700">Contact</Link>
+            <Link href="/musicvideos" onClick={() => setMobileMenuOpen(false)} className="block py-2 border-b border-gray-700">Music</Link>
+            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} className="block py-2">ShopNow</Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
