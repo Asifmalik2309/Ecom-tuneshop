@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
+import Image from "next/image";  // Importing Image component from next/image
 
 const albums = [
   { id: 1, title: "Future Nostalgia", cover: "/images/futurenostalgia.jpg" },
@@ -80,9 +81,12 @@ export default function MusicPage() {
                   transition={{ duration: 0.5, delay: album.id * 0.1 }}
                 >
                   <div className="w-72 h-48 rounded-3xl overflow-hidden border-4 border-white shadow-xl bg-black hover:scale-105 transition-transform duration-300">
-                    <img
+                    {/* Using Image component from Next.js */}
+                    <Image
                       src={album.cover}
                       alt={album.title}
+                      width={288}  // Provide width and height for the Image component
+                      height={192}
                       className="w-full h-full object-cover"
                     />
                   </div>

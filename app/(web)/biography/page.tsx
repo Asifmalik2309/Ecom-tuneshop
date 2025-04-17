@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Head from 'next/head';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 
 const Biography: React.FC = () => {
   return (
@@ -19,22 +19,21 @@ const Biography: React.FC = () => {
       </Head>
 
       <motion.div
-        className="text-white min-h-screen flex flex-col items-center px-8 py-16 bg-indigo-300 mt-4" // Single background color applied here
+        className="text-white min-h-screen flex flex-col items-center px-8 py-16 bg-indigo-300 mt-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        {/* Header Section */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-center mb-16 z-10 w-full max-w-3xl mx-auto p-8 bg-indigo-300 bg-opacity-60 rounded-xl" // Background for header content
+          className="text-center mb-16 z-10 w-full max-w-3xl mx-auto p-8 bg-indigo-300 bg-opacity-60 rounded-xl"
         >
-          {/* Heading with smaller size by 20% */}
           <h1
             className="text-3xl md:text-5xl font-bold leading-tight"
-            style={{ transform: 'scale(0.8)' }} // Scales down the heading to 80% of its original size
+            style={{ transform: 'scale(0.8)' }}
           >
             Biography of an Artist Making Waves in Society
           </h1>
@@ -43,13 +42,13 @@ const Biography: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Artist Image Section */}
+        {/* Artist Image */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="mb-16 z-10 w-full max-w-3xl mx-auto p-8 bg-indigo-300 bg-opacity-60 rounded-xl mb-12" // Background for image section
-          style={{ transform: 'translateY(-30px)' }} // This moves the image 30px upwards
+          className="mb-16 z-10 w-full max-w-3xl mx-auto p-8 bg-indigo-300 bg-opacity-60 rounded-xl mb-12"
+          style={{ transform: 'translateY(-30px)' }}
         >
           <Image
             src="/images/singerartist.jpg"
@@ -60,79 +59,72 @@ const Biography: React.FC = () => {
           />
         </motion.div>
 
-        {/* Artist Description Section */}
+        {/* Background Section */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl" // Background for description section
+          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl"
         >
           <h2 className="text-2xl md:text-3xl font-semibold mb-4">Background</h2>
           <p className="text-md md:text-lg leading-relaxed">
-            [Artist's Name] is a revolutionary figure in the world of music and activism. Born in [City/Country], [Artist's Name]
+            [Artist&apos;s Name] is a revolutionary figure in the world of music and activism. Born in [City/Country], [Artist&apos;s Name]
             quickly rose to prominence through their unparalleled musical talent and dedication to societal change.
-            Their songs address pressing issues like social justice, mental health, and equality, making them a voice
-            for the voiceless. Through their art, they have sparked movements and brought light to struggles faced by
-            marginalized communities.
+            Their songs address pressing issues like social justice, mental health, and equality.
           </p>
         </motion.div>
 
-        {/* Early Life and Musical Journey */}
+        {/* Early Life */}
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1.5 }}
-          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl" // Background for early life section
+          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl"
         >
           <h2 className="text-2xl md:text-3xl font-semibold mb-4">Early Life & Musical Journey</h2>
           <p className="text-md md:text-lg leading-relaxed">
-            Growing up in [City], [Artist's Name] was surrounded by music from a young age. Their parents, both
-            musicians, introduced them to a variety of genres, from classic rock to contemporary hip-hop. Inspired by
-            the sounds of [famous artist or genre], they began honing their craft at an early age. By the time they
-            were in their teens, they had already started writing their own songs, combining meaningful lyrics with
-            a powerful, unique sound.
+            Growing up in [City], [Artist&apos;s Name] was surrounded by music from a young age. Their parents, both
+            musicians, introduced them to a variety of genres. Inspired by the sounds of [famous artist or genre], they
+            began honing their craft early.
           </p>
         </motion.div>
 
-        {/* Key Milestones */}
+        {/* Milestones */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 2 }}
-          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl" // Background for milestones section
+          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl"
         >
           <h2 className="text-2xl md:text-3xl font-semibold mb-4">Key Milestones</h2>
           <ul className="list-disc list-inside text-md md:text-lg">
-            <li><strong>Debut Album Release:</strong> [Album Name] - Released in [Year], it quickly became a chart-topping hit.</li>
-            <li><strong>Social Activism:</strong> [Artist's Name] became an advocate for [Cause], using their platform to raise awareness.</li>
-            <li><strong>Awards & Recognition:</strong> Won [Award] in [Year] for [Category], cementing their status as a global influencer.</li>
-            <li><strong>Collaborations:</strong> Worked with artists like [Artist's Name] on tracks such as [Song Name].</li>
+            <li><strong>Debut Album:</strong> [Album Name], released in [Year]</li>
+            <li><strong>Activism:</strong> Advocated for [Cause]</li>
+            <li><strong>Awards:</strong> Won [Award] for [Category]</li>
+            <li><strong>Collaborations:</strong> Worked with [Other Artist]</li>
           </ul>
         </motion.div>
 
-        {/* Impact on Society Section */}
+        {/* Impact */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 2.5 }}
-          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl" // Background for impact on society section
+          className="text-center max-w-3xl mx-auto mb-16 z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl"
         >
           <h2 className="text-2xl md:text-3xl font-semibold mb-4">Impact on Society</h2>
           <p className="text-md md:text-lg leading-relaxed">
-            [Artist's Name] has used their voice to not only entertain but to educate and inspire. Through their lyrics,
-            they address topics like [mention topics such as social justice, mental health awareness, LGBTQ+ rights, etc.],
-            offering a fresh perspective on issues that matter. Their involvement in [specific cause] has inspired millions
-            to take action and be more aware of the issues that plague our society today. [Artist's Name]'s impact goes
-            beyond music; they have become a symbol of hope, unity, and change.
+            [Artist&apos;s Name] has used their voice to educate and inspire. Their involvement in [specific cause] has
+            empowered millions. They are now a symbol of unity and progress.
           </p>
         </motion.div>
 
-        {/* Call-to-Action */}
+        {/* CTA Button */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 3 }}
-          className="text-center z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl" // Background for CTA section
+          className="text-center z-10 w-full p-8 bg-indigo-300 bg-opacity-60 rounded-xl"
         >
           <Link href="/shop">
             <motion.button

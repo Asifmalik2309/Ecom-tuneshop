@@ -23,8 +23,8 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
-        document.cookie = 'session=true; path=/'; // Simulating session storage
-        router.push('/'); // Redirect to home or desired page
+        document.cookie = 'session=true; path=/'; // Simulated session
+        router.push('/');
       } else {
         const errorData = await response.json();
         alert(errorData.message || 'Login failed');
@@ -73,7 +73,7 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="mt-4 text-center text-gray-400">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/register" className="text-blue-500 hover:underline">
             Sign up
           </Link>

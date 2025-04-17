@@ -1,4 +1,3 @@
-// /app/components/Navbar.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,25 +5,29 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Search, ShoppingCart, User } from 'lucide-react';
 
+// Define the CartItem type
+type CartItem = {
+  id: number;
+  quantity: number;
+  // Add other properties as needed, like price, title, etc.
+};
+
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    // Function to update cart count
     const updateCartCount = () => {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const count = cart.reduce((total: number, item: any) => total + (item.quantity || 1), 0);
+      const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total: number, item: CartItem) => total + (item.quantity || 1), 0);
       setCartCount(count);
     };
 
-    // Load the cart count initially
     updateCartCount();
 
-    // Listen for changes to the cart in localStorage (e.g., another tab updates the cart)
-    window.addEventListener('storage', updateCartCount);  // Listen for localStorage changes
-    window.addEventListener('cartUpdated', updateCartCount);  // Listen for custom cartUpdated events
+    window.addEventListener('storage', updateCartCount);
+    window.addEventListener('cartUpdated', updateCartCount);
 
     return () => {
       window.removeEventListener('storage', updateCartCount);
@@ -52,7 +55,7 @@ export default function Navbar() {
           <Link href="/musicvideos" className="hover:text-gray-300 text-xs">Music</Link>
           <Link href="/shop" className="hover:text-gray-300 text-xs">ShopNow</Link>
         </div>
-        
+
         <div className="flex items-center gap-4">
           {searchOpen && (
             <motion.input

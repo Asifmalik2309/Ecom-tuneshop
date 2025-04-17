@@ -1,113 +1,91 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from 'react';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setStatus("");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
+      const data = await response.json();
 
       if (response.ok) {
-        setStatus("Message sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
+        setSuccess('Your message has been sent successfully!');
+        setFormData({ name: '', email: '', message: '' });
       } else {
-        setStatus(result.error || "Something went wrong. Try again.");
+        setError(data.error || 'Something went wrong. Please try again later.');
       }
-    } catch (error) {
-      setStatus("Network error. Please try again later.");
+    } catch (err) {
+      // Log the error for debugging (optional)
+      console.error(err);
+      setError('An error occurred. Please try again later.');
     }
-
-    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gray flex flex-col items-center justify-center p-6">
-      <motion.h1
-        className="text-4xl md:text-5xl font-bold text-gray mb-6 text-center"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        Contact Us
-      </motion.h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
 
-      <motion.form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-lg p-6 md:p-8 w-full max-w-lg"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-      >
+      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {success && <div className="text-green-500 mb-4">{success}</div>}
+
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold">Name</label>
+          <label htmlFor="name" className="block text-sm font-medium">Name</label>
           <input
             type="text"
-            name="name"
+            id="name"
             value={formData.name}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400"
-            placeholder="Enter your name"
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold">Email</label>
+          <label htmlFor="email" className="block text-sm font-medium">Email</label>
           <input
             type="email"
-            name="email"
+            id="email"
             value={formData.email}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400"
-            placeholder="Enter your email"
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
 
-        <div className="mb-6">
-          <label className="block text-gray-700 font-semibold">Message</label>
+        <div className="mb-4">
+          <label htmlFor="message" className="block text-sm font-medium">Message</label>
           <textarea
-            name="message"
+            id="message"
             value={formData.message}
-            onChange={handleChange}
-            rows={4}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400"
-            placeholder="Type your message"
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             required
-          />
+            className="w-full p-2 border border-gray-300 rounded-md"
+            rows={4}
+          ></textarea>
         </div>
 
-        <motion.button
-          type="submit"
-          className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          disabled={loading}
-        >
-          {loading ? "Sending..." : "Send Message"}
-        </motion.button>
-
-        {status && <p className="mt-4 text-center text-green-700">{status}</p>}
-      </motion.form>
+        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">
+          Send Message
+        </button>
+      </form>
     </div>
   );
 }
